@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class LoanTransactions {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long _id;
 	
 	@Column(name = "loan_id")
