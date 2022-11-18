@@ -2,13 +2,22 @@ package loanManager.api.loanDetails.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-@Table(name ="loan_transactions")
+@Table(name ="transactions_ledger")
 public class LoanTransactions {
 	
 	@Id
@@ -30,7 +39,11 @@ public class LoanTransactions {
 	@Column(name = "status")
 	private String status;
 	
-
+//	  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//	  @JoinColumn(name = "_id", nullable = false)
+//	  @OnDelete(action = OnDeleteAction.CASCADE)
+//	  
+//	  private LoanDetails loanDetails;
 	
 	public LoanTransactions() {}
 
@@ -39,7 +52,7 @@ public class LoanTransactions {
 
 
 	public LoanTransactions(long _id, int loanId, String date, int period, double paymentAmount, String firstName,
-			String lastName) {
+			String lastName , String status) {
 		super();
 		this._id = _id;
 		this.loanId = loanId;
@@ -47,6 +60,7 @@ public class LoanTransactions {
 		this.period = period;
 		this.paymentAmount = paymentAmount;
 		this.status = status;
+		;
 	
 	}
 
@@ -65,6 +79,22 @@ public class LoanTransactions {
 	public void set_id(long _id) {
 		this._id = _id;
 	}
+
+
+
+
+
+//	public LoanDetails getLoanDetails() {
+//		return loanDetails;
+//	}
+//
+//
+//
+//
+//
+//	public void setLoanDetails(LoanDetails loanDetails) {
+//		this.loanDetails = loanDetails;
+//	}
 
 
 

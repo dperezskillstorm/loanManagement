@@ -11,5 +11,7 @@ public class LoanDetailsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LoanDetailsApplication.class, args);
 	}
+	
+	
 
 }
