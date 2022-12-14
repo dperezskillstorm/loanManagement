@@ -1,5 +1,6 @@
 package loanManager.api.loanDetails.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import loanManager.api.loanDetails.models.LoanDetails;
 import loanManager.api.loanDetails.models.LoanTransactions;
+import loanManager.api.loanDetails.models.LoanTransactionsDTO;
 import loanManager.api.loanDetails.repository.LoanTransactionsRepository;
 import loanManager.api.loanDetails.service.TransactionService;
 
@@ -29,7 +31,8 @@ public class LoanTransactionsController {
 	private LoanTransactionsRepository loanTransactionsRepository;
 	
 	@Autowired
-	private TransactionService transactionService;
+	private TransactionService transactionService; 
+	
 	
 	
 	@GetMapping("/loanTransactions")
@@ -37,26 +40,28 @@ public class LoanTransactionsController {
 		return loanTransactionsRepository.findAll();
 	}
 	
-	@GetMapping("/loanTransactions/amount/{amount}")
-	public List<LoanTransactions> getAllLoansTransactionsFilterAmount(@PathVariable int amount){
-		
-		List<LoanTransactions> loansTransactions = loanTransactionsRepository.findAll();
-		return loansTransactions.stream().filter(c-> c.getPaymentAmount() > amount)
-		.collect(Collectors.toList());
+	
+	//Testing Steam Filters on the Service Layer
+	@GetMapping("loanTransactions/amount/{amount}")
+	public List <LoanTransactions >getLoansGreatThanAmount(@PathVariable double amount){
+		return transactionService.findTransactionsLargerThenAmount(amount);
 	}
 	
+	
+	//
 	@GetMapping("/loanTransactions/{_id}")
 	public ResponseEntity<Optional<LoanTransactions>> FindLoansTransactionsById(@PathVariable Long _id) {
 		Optional<LoanTransactions> loansTransactions = this.loanTransactionsRepository.findById(_id);
 		return ResponseEntity.ok(loansTransactions);	
 	}
 	
-//	@GetMapping("/loanTransactions/loanNumber/{loanNum}")
-//	public ResponseEntity<List<LoanTransactions>> findTransactionsByLoanNumber(@PathVariable int loanNum) {
-//		List<LoanTransactions> loanTransactions = transactionService.findTransactionByLoanNumb(loanNum);
-//		return ResponseEntity.ok(loanTransactions);
-//		
-//	}
+	@GetMapping("/loanTransactions/summary/{searchDate}")
+	public List<String> getLoanSummary(@PathVariable String searchDate){
+		return transactionService.getPaymentsThisWeek(searchDate);
+	
+	}
+	
+
 	
 	@GetMapping("/loanTransactions/loanNumber/{_id}")
 	public ResponseEntity<List<LoanTransactions>> FindLoansTransactionsByLoanId(@PathVariable int _id) {

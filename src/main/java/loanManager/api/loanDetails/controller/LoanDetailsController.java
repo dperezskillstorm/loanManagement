@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import loanManager.api.exception.ResourceNotFoundException;
 import loanManager.api.loanDetails.models.LoanDetails;
 import loanManager.api.loanDetails.repository.LoanDetailsRepository;
+import loanManager.api.loanDetails.service.LoanDetailsService;
 
 //@CrossOrigin(origins = "http://localhost:3000")
 @CrossOrigin
@@ -28,6 +29,14 @@ import loanManager.api.loanDetails.repository.LoanDetailsRepository;
 public class LoanDetailsController {
 	@Autowired
 	private LoanDetailsRepository loanDetailsRepository;
+	
+	@Autowired
+	private LoanDetailsService loanDetailsService;
+	
+	@GetMapping("/loanDetails/ActiveAccounts")
+	public List<LoanDetails> getAccountInfo(){
+		return loanDetailsService.getAccountInfo();
+	}
 	
 	@GetMapping("/loanDetails")
 	public List<LoanDetails> getAllLoanDetails(){

@@ -11,25 +11,16 @@ import loanManager.api.loanDetails.models.LoanTransactions;
 
 @Repository
 public interface LoanTransactionsRepository extends JpaRepository<LoanTransactions, Long> {
-	
-//	@Query(value = " SELECT * FROM transactions  t where t.loan_id = :loanNum ",nativeQuery = true) 
-//		public List<LoanTransactions> findTransactionByLoanNumb(@Param("loanNum")int _loanNum);
-//
-//}
 
-@Query(value = "select * from loan_transactions l where l.loan_id = :loanNum",nativeQuery = true) 
-public List<LoanTransactions> findTransactionByLoanNumb(@Param("loanNum")int loanNum);
-
-
+@Query(value = "select l.first_name, l.last_name, t.payment_amount, t.date, t.status from transactions_ledger t  inner join loan_details l ON l._id=t.loan_id WHERE WEEK(DATE(t.date),0) = WEEK(DATE(:searchDate),0)"
+		,nativeQuery=true)
+public List<String> getPaymentsThisWeek(String searchDate);
 
 public List<LoanTransactions> findByLoanId(int _id);
 
-
-
-
-
-
 }
+
+
 
 
 
